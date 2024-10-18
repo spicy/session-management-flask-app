@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block header %}Profile{% endblock %}
+
+{% block content %}
+    <p>Welcome, {{ username }}!</p>
+    <p>You have visited this page {{ visits }} time(s).</p>
+    <a href="{{ url_for('auth.logout_user') }}">Logout</a>
+{% endblock %}

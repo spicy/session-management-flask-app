@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block header %}Login{% endblock %}
+
+{% block content %}
+    <form method="POST" id="loginForm">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.username.label }}
+            {{ form.username(id="username") }}
+            <span id="usernameError" class="errors"></span>
+            {% if form.username.errors %}
+                <ul class="errors">
+                    {% for error in form.username.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        {{ form.submit() }}
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            const username = document.getElementById('username').value;
+            const usernameError = document.getElementById('usernameError');
+            const usernameRegex = new RegExp('{{ username_regex|safe }}');
+
+            if (!username) {
+                usernameError.textContent = 'Username is required.';
+                event.preventDefault();
+            } else if (!usernameRegex.test(username)) {
+                usernameError.textContent = 'Username must be in the format Firstname_Lastname (e.g., John_Doe)';
+                event.preventDefault();
+            } else {
+                usernameError.textContent = '';
+            }
+        });
+    </script>
+{% endblock %}
